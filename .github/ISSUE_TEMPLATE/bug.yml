@@ -33,10 +33,14 @@ body:
         version that shows you help menu, omit the `-c` and attach config files
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
-        <p style="display: none;"></details></p>
+        <p style="display: none;"><details></p>
       placeholder: Paste the output of the command here
       value: asdasd      
-    
+
+    - type: markdown
+    attributes:
+      value: |
+        <p style="display: none;"></details></p>
   
 
   - type: textarea
