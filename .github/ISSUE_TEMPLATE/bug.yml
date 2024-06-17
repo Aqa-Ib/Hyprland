@@ -32,14 +32,14 @@ body:
         version that shows you help menu, omit the `-c` and attach config files
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
-      value: "<details>
-        <summary>System/Version info</summary>
+      value: |
+        <details> <summary>System/Version info</summary>
 
         
         <Paste the output of the command here>
 
 
-        </details>"
+        </details>
       render: bash
     validations:
       required: true
