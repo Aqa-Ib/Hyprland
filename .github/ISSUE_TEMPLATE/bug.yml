@@ -5,10 +5,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        <h2> Before opening a new issue, take a moment to search through the current open and closed issues to check if it already exists.</h2>
+        <h2>Before opening a new issue, please take a moment to search through the current open and closed issues to check if it already exists.</h2>
 
         ---
-
 
   - type: dropdown
     id: type
@@ -23,11 +22,6 @@ body:
         - "No"
     validations:
       required: true
-      
-  - type: markdown
-    attributes:
-      value: |
-        <p style="display: none;"><details></p>
 
   - type: textarea
     id: ver
@@ -38,14 +32,18 @@ body:
         version that shows you help menu, omit the `-c` and attach config files
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
-      placeholder: Paste the output of the command here
-      value: asdasd      
+      value: "<details>
+        <summary>System/Version info</summary>
 
-  - type: markdown
-    attributes:
-      value: |
-        <p style="display: none;"></details></p>
-  
+        
+        <Paste the output of the command here>
+
+
+        </details>"
+      render: bash
+    validations:
+      required: true
+
   - type: textarea
     id: desc
     attributes:
