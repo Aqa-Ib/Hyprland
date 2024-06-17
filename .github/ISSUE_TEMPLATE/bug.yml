@@ -5,11 +5,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        <h2>
-        Before opening a new issue, take a moment to search through the current open and closed issues to check if it already exists.
+        <h3>Before opening a new issue, take a moment to search through the current open and closed issues to check if it already exists.</h3>
 
         ---
-        </h2>
+
 
   - type: dropdown
     id: type
