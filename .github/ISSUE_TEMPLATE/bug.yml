@@ -37,7 +37,7 @@ body:
 
         ```sh
         
-      value: <Paste the output of the command here>
+      value: Paste the output of the command here
 
       description:
               ```
