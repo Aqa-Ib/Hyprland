@@ -37,10 +37,10 @@ body:
       placeholder: Paste the output of the command here
       value: asdasd      
 
-    - type: markdown
-    attributes:
-      value: |
-        <p style="display: none;"></details></p>
+  - type: markdown
+  attributes:
+    value: |
+      <p style="display: none;"></details></p>
   
 
   - type: textarea
