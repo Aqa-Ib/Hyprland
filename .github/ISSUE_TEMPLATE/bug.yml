@@ -37,14 +37,14 @@ body:
 
         ```sh
         
-      value: "
+      value: 
         <Paste the output of the command here>
 
       description:
               ```
 
 
-        </details>"
+        </details>
     validations:
       required: true
 
