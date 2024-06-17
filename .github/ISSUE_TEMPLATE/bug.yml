@@ -39,7 +39,6 @@ body:
 
 
         ``` </details>
-      render: bash
     validations:
       required: true
 
