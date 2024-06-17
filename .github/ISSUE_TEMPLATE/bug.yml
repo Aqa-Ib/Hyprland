@@ -34,10 +34,9 @@ body:
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
       placeholder: Paste the output of the command here
-      value: "<p style="display: none;"><details></p>"
-      value: |
-        asdasd      
-      value: "<p style="display: none;"></details></p>"
+      value: dfg
+      value: asdasd      
+      value: dfg
     validations:
       required: true
 
