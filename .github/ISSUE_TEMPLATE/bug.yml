@@ -5,28 +5,45 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Before opening a new issue,** take a moment to search through the current open and closed issues to check if it already exists.
+        **Before opening a new issue, take a moment to search through the current open and closed issues to check if it already exists.**
 
         ---
 
-  - type: input
-    id: asdasd
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-
-
   - type: dropdown
-    id: browsers
+    id: type
     attributes:
       label: Regression?
-      default: 0
       description: |
         Regression means that something used to work but no longer does.
-        **PLEASE**, before continuing check if this bug is a regression or not, and if it is, we need you to bisect with the help of the wiki: https://wiki.hyprland.org/Crashes-and-Bugs/#bisecting-an-issue
+        **BEFORE CONTINUING**, please check if this bug is a regression or not, and if it is, we need you to bisect with the help of the wiki: https://wiki.hyprland.org/Crashes-and-Bugs/#bisecting-an-issue
+      multiple: true
       options:
         - "Yes"
         - "No"
+    validations:
+      required: true
+
+  - type: textarea
+    id: ver
+    attributes:
+      label: System Info and Version
+      description: |
+        Paste the output of `hyprctl systeminfo -c` here (If you are on a 
+        version that shows you help menu, omit the `-c` and attach config files
+        to the issue). If you have configs outside of the main config shown 
+        here, please attach.
+      value: "<details>
+        <summary>System/Version info</summary>
+
+
+        ```sh
+        
+        <Paste the output of the command here>
+
+        ```
+
+
+        </details>"
     validations:
       required: true
 
