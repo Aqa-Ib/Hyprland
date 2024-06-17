@@ -34,12 +34,14 @@ body:
         here, please attach.
       value: |
         <details> <summary>System/Version info</summary>
+        
         ```sh
         
         <Paste the output of the command here>
 
 
         ```
+        
         </details>
     validations:
       required: true
