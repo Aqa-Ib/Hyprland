@@ -31,12 +31,13 @@ body:
         version that shows you help menu, omit the `-c` and attach config files
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
-      value: "<details>
+        <details>
         <summary>System/Version info</summary>
 
 
         ```sh
         
+      value: "
         <Paste the output of the command here>
 
         ```
