@@ -33,7 +33,7 @@ body:
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
       value: |
-        <details> <summary>System/Version info</summary>
+        <p class="hidden" aria-hidden="true"> <details> <summary>System/Version info</summary> </p>
         
         ```sh
         
