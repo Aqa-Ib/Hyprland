@@ -32,17 +32,18 @@ body:
         version that shows you help menu, omit the `-c` and attach config files
         to the issue). If you have configs outside of the main config shown 
         here, please attach.
-      value: |
-        <p style="display: none;">dfgfdgfg</p>
-        
+      value: "<details>
+        <summary>System/Version info</summary>
+
+
         ```sh
         
         <Paste the output of the command here>
 
-
         ```
-        
-        </details>
+
+
+        </details>"
     validations:
       required: true
 
