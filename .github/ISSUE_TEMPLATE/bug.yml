@@ -25,7 +25,6 @@ body:
   - type: textarea
     id: ver
     attributes:
-      label: System Info and Version
       description: |
         Paste the output of `hyprctl systeminfo -c` here (If you are on a 
         version that shows you help menu, omit the `-c` and attach config files
