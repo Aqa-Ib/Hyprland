@@ -9,7 +9,7 @@ body:
 
         ---
 
-  - type: textarea
+  - type: input
     id: asdasd
     attributes:
       label: Relevant log output
