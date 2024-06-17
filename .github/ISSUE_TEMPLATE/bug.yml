@@ -24,8 +24,6 @@ body:
     validations:
       required: true
 
-  <p style="display: none;"><details></p>
-
   - type: textarea
     id: ver
     attributes:
