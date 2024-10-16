@@ -200,6 +200,7 @@ bool IHyprLayout::onWindowCreatedAutoGroup(PHLWINDOW pWindow) {
 
 
 
+      2
         pWindow->m_bIsFloating = OPENINGON->m_bIsFloating; // match the floating state. Needed to autogroup a new tiled window into a floated group.
 
         static auto USECURRPOS = CConfigValue<Hyprlang::INT>("group:insert_after_current");
