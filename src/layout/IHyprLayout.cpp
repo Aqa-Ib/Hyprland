@@ -198,6 +198,8 @@ bool IHyprLayout::onWindowCreatedAutoGroup(PHLWINDOW pWindow) {
         && !g_pXWaylandManager->shouldBeFloated(pWindow) // don't group child windows. Fix for floated groups. Tiled groups don't need this because we check if !denied.
         && !denied) {                                    // don't group a new floated window into a tiled group (for convenience).
 
+
+
         pWindow->m_bIsFloating = OPENINGON->m_bIsFloating; // match the floating state. Needed to autogroup a new tiled window into a floated group.
 
         static auto USECURRPOS = CConfigValue<Hyprlang::INT>("group:insert_after_current");
