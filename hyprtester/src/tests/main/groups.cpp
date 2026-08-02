@@ -727,3 +727,168 @@ TEST_CASE(groups_disable_when_only) {
     Tests::killAllWindows();
     ASSERT(Tests::windowCount(), 0);
 }
+
+TEST_CASE(groupMembersPositionAndSize) {
+    NLog::log("{}check that size and position are consistent for group members after the active group member has been fullscrened.", Colors::GREEN);
+
+    ASSERT(Tests::windowCount(), 0);
+    auto kitten1 = Tests::spawnKitty("kitten1");
+    if (!kitten1) {
+        FAIL_TEST("Could not spawn kitty");
+    }
+    OK(getFromSocket("/dispatch hl.dsp.group.toggle()"));
+
+    auto kitten2 = Tests::spawnKitty("kitten2");
+    if (!kitten2) {
+        FAIL_TEST("Could not spawn kitty");
+    }
+    ASSERT(Tests::windowCount(), 2);
+
+    // Fullscreen
+    {
+        auto checkHiddenGroupMember = [&]() {
+            auto clients  = getFromSocket("/clients");
+            auto classPos = clients.find("class: kitten1");
+            if (classPos == std::string::npos) {
+                FAIL_TEST("Could not find kitten1 in clients output");
+            } else {
+                auto entryStart  = clients.rfind("Window ", classPos);
+                auto entryEnd    = clients.find("\n\n", classPos);
+                auto windowEntry = clients.substr(entryStart, entryEnd - entryStart);
+                EXPECT_CONTAINS(windowEntry, "size: 1920,1080");
+                EXPECT_CONTAINS(windowEntry, "at: 0,0");
+            }
+        };
+
+        // Dwindle with layout_aware = false
+        OK(getFromSocket("r/eval hl.config({ general = { layout = 'dwindle' } })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = false })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 0,0", 1);
+            EXPECT_COUNT_STRING(str, "size: 1920,1080", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = false })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = false })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = false })"));
+
+        // Scrolling with layout_aware = true
+        OK(getFromSocket("r/eval hl.config({ general = { layout = 'scrolling' } })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = true })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 0,0", 1);
+            EXPECT_COUNT_STRING(str, "size: 1920,1080", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = true })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = true })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = true })"));
+
+        // Scrolling with layout_aware = false
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = false })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 0,0", 1);
+            EXPECT_COUNT_STRING(str, "size: 1920,1080", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = false })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'set', layout_aware = false })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'unset', layout_aware = false })"));
+    }
+
+    // Maximized
+    {
+        auto checkHiddenGroupMember = [&]() {
+            auto clients  = getFromSocket("/clients");
+            auto classPos = clients.find("class: kitten1");
+            if (classPos == std::string::npos) {
+                FAIL_TEST("Could not find kitten1 in clients output");
+            } else {
+                auto entryStart  = clients.rfind("Window ", classPos);
+                auto entryEnd    = clients.find("\n\n", classPos);
+                auto windowEntry = clients.substr(entryStart, entryEnd - entryStart);
+                EXPECT_CONTAINS(windowEntry, "size: 1876,1015");
+                EXPECT_CONTAINS(windowEntry, "at: 22,43");
+            }
+        };
+
+        // Dwindle with layout_aware = false
+        OK(getFromSocket("r/eval hl.config({ general = { layout = 'dwindle' } })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = false })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 22,43", 1);
+            EXPECT_COUNT_STRING(str, "size: 1876,1015", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'unset', layout_aware = false })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = false })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'unset', layout_aware = false })"));
+
+        // Scrolling with layout_aware = true
+        OK(getFromSocket("r/eval hl.config({ general = { layout = 'scrolling' } })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = true })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 22,43", 1);
+            EXPECT_COUNT_STRING(str, "size: 1876,1015", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'unset', layout_aware = true })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = true })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'unset', layout_aware = true })"));
+
+        // Scrolling with layout_aware = false
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = false })"));
+        {
+            // check position and size for the focused group member (kitten2).
+            auto str = getFromSocket("/activewindow");
+            EXPECT_COUNT_STRING(str, "at: 22,43", 1);
+            EXPECT_COUNT_STRING(str, "size: 1876,1015", 1);
+        }
+        // tiled
+        checkHiddenGroupMember();
+        // floating
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'unset', layout_aware = false })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'set' })"));
+        OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'maximized', action = 'set', layout_aware = false })"));
+        checkHiddenGroupMember();
+        OK(getFromSocket("/dispatch hl.dsp.window.float({ action = 'unset', layout_aware = false })"));
+    }
+
+    Tests::killAllWindows();
+    ASSERT(Tests::windowCount(), 0);
+}
