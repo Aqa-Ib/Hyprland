@@ -721,7 +721,7 @@ TEST_CASE(workspacesCombined) {
         ASSERT_CONTAINS(str, "class: kitty_A");
     }
 
-    OK(getFromSocket("/eval hl.config({ binds = { directional_focus_in_fullscreen = false } })"));
+    OK(getFromSocket("/eval hl.config({ binds = { movefocus_cycles_fullscreen = false } })"));
     OK(getFromSocket("/dispatch hl.dsp.window.fullscreen({ mode = 'fullscreen' })"));
 
     OK(getFromSocket("/dispatch hl.dsp.focus({ direction = 'right' })"));
